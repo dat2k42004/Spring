@@ -43,7 +43,7 @@ uri="http://www.springframework.org/tags/form" %>
       <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
         <div class="navbar-nav mx-auto">
           <a href="/" class="nav-item nav-link active">Home</a>
-          <a href="/product/2" class="nav-item nav-link">Item</a>
+          <a href="/product" class="nav-item nav-link">Item</a>
           
             <div class="dropdown-menu m-0 bg-secondary rounded-0">
               <a href="cart.html" class="dropdown-item">Cart</a>

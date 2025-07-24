@@ -3,6 +3,8 @@ package com.example.demo.controller.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +56,9 @@ public class HomePageController {
      @GetMapping("/")
      public String getHomePage(Model model, HttpServletRequest request) {
           // HttpSession session = request.getSession(false);
-          List<Product> product = this.productService.handleGetAllProduct();
+          Pageable pageable = PageRequest.of(0, 8);
+          List<User> user = this.userService.handleGetAllUsers(pageable).getContent();
+          List<Product> product = this.productService.handleGetAllProduct(pageable).getContent();
           model.addAttribute("product", product);
           // model.addAttribute("fullName");
           return "/client/homepage/view";

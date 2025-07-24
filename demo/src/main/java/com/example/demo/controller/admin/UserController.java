@@ -1,5 +1,8 @@
 package com.example.demo.controller.admin;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.demo.domain.Role;
 import com.example.demo.domain.User;
@@ -59,9 +63,23 @@ public class UserController {
 
      /* get all user for page */
      @RequestMapping("/admin/user")
-     public String getUserPage(Model model) {
-          List<User> arrUsers = this.userService.handleGetAllUsers();
-          model.addAttribute("arrUsers", arrUsers);
+     public String getUserPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
+          int page = 1;
+
+          try {
+               if (pageOptional.isPresent()) {
+                    page = Integer.parseInt(pageOptional.get());
+               } else {
+
+               }
+          } catch (Exception e) {
+               // TODO: handle exception
+          }
+          Pageable pageable = PageRequest.of(page - 1, 2);
+          Page<User> arrUsers = this.userService.handleGetAllUsers(pageable);
+          model.addAttribute("arrUsers", arrUsers.getContent());
+          model.addAttribute("currentPage", page);
+          model.addAttribute("totalPages", arrUsers.getTotalPages());
           return "admin/user/view";
      }
 
@@ -76,7 +94,7 @@ public class UserController {
                System.out.println(">>>>" + error.getField() + " - " + error.getDefaultMessage());
           }
           System.out.println("error");
-          if (bindingResult.hasErrors()) {   
+          if (bindingResult.hasErrors()) {
                return "/admin/user/create";
           }
           String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");

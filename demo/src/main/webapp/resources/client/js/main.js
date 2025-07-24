@@ -127,6 +127,49 @@
         $('#videoModal').on('hide.bs.modal', function (e) {
             $("#video").attr('src', $videoSrc);
         })
+
+        //add active class to header
+
+        const navElement = $("#navbarCollapse");
+        const currentUrl = window.location.pathname;
+
+        navElement.find("a.nav-link").each(function () {
+            const link = $(this);
+            const href = link.attr('href');
+
+            if (href === currentUrl) {
+                link.addClass('active');
+            }
+            else {
+                link.removeClass('active');
+            }
+        })
+
+        const searchParams = new URLSearchParams(window.location.search);
+
+        // Khôi phục checkbox cho factory
+        const factories = searchParams.get("factory")?.split(",") || [];
+        factories.forEach(val => {
+            $(`#factoryFilter input[type="checkbox"][value="${val}"]`).prop("checked", true);
+        });
+
+        // Khôi phục checkbox cho target
+        const targets = searchParams.get("target")?.split(",") || [];
+        targets.forEach(val => {
+            $(`#targetFilter input[type="checkbox"][value="${val}"]`).prop("checked", true);
+        });
+
+        // Khôi phục checkbox cho price
+        const prices = searchParams.get("mul_price")?.split(",") || [];
+        prices.forEach(val => {
+            $(`#priceFilter input[type="checkbox"][value="${val}"]`).prop("checked", true);
+        });
+
+        // Khôi phục radio button sort
+        const sort = searchParams.get("sort");
+        if (sort) {
+            $(`input[name="radioDefault"][value="${sort}"]`).prop("checked", true);
+        }
     });
 
 
@@ -184,6 +227,59 @@
                 $(totalPriceElement[index]).attr('data-cart-total-price', newTotal);
             })
         }
+    });
+
+    $('#btnFilter').click(function () {
+
+        event.preventDefault();
+        let factoryArr = [];
+        let targetArr = [];
+        let priceArr = [];
+
+        $('#factoryFilter .form-check-input:checked').each(function () {
+            factoryArr.push($(this).val());
+        });
+
+        $('#targetFilter .form-check-input:checked').each(function () {
+            targetArr.push($(this).val());
+        });
+
+        $('#priceFilter .form-check-input:checked').each(function () {
+            priceArr.push($(this).val());
+        });
+
+        console.log(factoryArr)
+        debugger
+
+
+
+
+
+        let sortValue = $('input[name="radioDefault"]:checked').val();
+
+        const currentUrl = new URL(window.location.href);
+        const searchParams = currentUrl.searchParams;
+
+        searchParams.set('page', 1);
+        searchParams.set('sort', sortValue);
+
+        searchParams.delete("factory");
+        searchParams.delete("target");
+        searchParams.delete("mul_price");
+
+        if (factoryArr.length > 0) {
+            searchParams.set('factory', factoryArr.join(","));
+        }
+
+        if (targetArr.length > 0) {
+            searchParams.set("target", targetArr.join(","));
+        }
+
+        if (priceArr.length > 0) {
+            searchParams.set('mul_price', priceArr.join(','));
+        }
+
+        window.location.href = currentUrl.toString();
     });
 
 })(jQuery);

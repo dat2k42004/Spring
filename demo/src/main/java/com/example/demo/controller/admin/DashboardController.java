@@ -2,6 +2,9 @@ package com.example.demo.controller.admin;
 
 import java.util.List;
 
+import org.hibernate.query.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +32,10 @@ public class DashboardController {
 
      @GetMapping("/admin")
      public String getDashBoard(Model model) {
-          List<User> user = this.userService.handleGetAllUsers();
-          List<Product> product = this.productService.handleGetAllProduct();
-          List<Order> order = this.orderService.handleGetAllOrder();
+          Pageable pageable = PageRequest.of(0, 8);
+          List<User> user = this.userService.handleGetAllUsers(pageable).getContent();
+          List<Product> product = this.productService.handleGetAllProduct(pageable).getContent();
+          List<Order> order = this.orderService.handleGetAllOrder(pageable).getContent();
           model.addAttribute("numberOfUsers", user.size());
           model.addAttribute("numberOfProducts", product.size());
           model.addAttribute("numberOfOrders", order.size());

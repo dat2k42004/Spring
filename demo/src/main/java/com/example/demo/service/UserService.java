@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -23,8 +25,8 @@ public class UserService {
           return "Hello from UserService!";
      }
 
-     public List<User> handleGetAllUsers() {
-          return this.userRepository.findAll();
+     public Page<User> handleGetAllUsers(Pageable pageable) {
+          return this.userRepository.findAll(pageable);
      }
 
      public List<User> handleGetUserByEmail(String email) {

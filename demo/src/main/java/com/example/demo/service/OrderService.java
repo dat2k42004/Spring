@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Cart;
@@ -31,8 +33,8 @@ public class OrderService {
           this.cartDetailRepository = cartDetailRepository;
      }
 
-     public List<Order> handleGetAllOrder() {
-          List<Order> orders = this.orderRepository.findAll();
+     public Page<Order> handleGetAllOrder(Pageable pageable) {
+          Page<Order> orders = this.orderRepository.findAll(pageable);
           return orders;
      }
 
