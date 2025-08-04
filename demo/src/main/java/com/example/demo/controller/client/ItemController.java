@@ -49,7 +49,7 @@ public class ItemController {
 
           String email = (String) session.getAttribute("email");
           this.productService.handleAddProductToCart(email, productId, session, 1);
-          return "redirect:/cart";
+          return "redirect:/";
      }
 
      @PostMapping("/add-to-cart/{id}")

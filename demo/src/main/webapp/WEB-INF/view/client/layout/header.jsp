@@ -60,7 +60,7 @@ uri="http://www.springframework.org/tags/form" %>
             <i class="fa fa-shopping-bag fa-2x"></i>
             <span
               class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-              style="top: -5px; left: 15px; height: 20px; min-width: 20px"
+              style="top: -5px; left: 15px; height: 20px; min-width: 20px" id="sumCart"
               >
               <c:out value="${sessionScope.sum}" />   
             </span

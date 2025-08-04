@@ -36,6 +36,13 @@ uri="http://www.springframework.org/tags/form" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+
+    <meta name="_csrf" content="${_csrf.token}" />
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+    />
   </head>
   <body>
     <!-- Spinner Start -->
@@ -83,7 +90,7 @@ uri="http://www.springframework.org/tags/form" %>
                   peacock flounder; chain pickerel hatchetfish, pencilfish
                   snailfish
                 </p> -->
-                <form action="/add-to-cart/${item.id}" method="post">
+                <!-- <form action="/add-to-cart/${item.id}" method="post">
                   <input
                     type="hidden"
                     name="${_csrf.parameterName}"
@@ -113,15 +120,16 @@ uri="http://www.springframework.org/tags/form" %>
                         <i class="fa fa-plus"></i>
                       </button>
                     </div>
-                  </div>
+                  </div> -->
 
-                  <button
-                    class="btn border border-secondary rounded-pill px-3 text-primary"
-                  >
-                    <i class="fa fa-shopping-bag me-2 text-primary"></i>
-                    Add to cart
-                  </button>
-                </form>
+                <button
+                  class="btn border border-secondary rounded-pill px-3 text-primary btnAddToCartHomePage"
+                  data-product-id="${item.id}"
+                >
+                  <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                  Add to cart
+                </button>
+                <!-- </form> -->
               </div>
               <div class="col-lg-12">
                 <nav>
@@ -260,7 +268,7 @@ uri="http://www.springframework.org/tags/form" %>
     <script src="/client/lib/waypoints/waypoints.min.js"></script>
     <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
     <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
   </body>

@@ -239,26 +239,30 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                     <c:if test="${totalPages > 0}">
                          <div class="col-12">
                          <div class="pagination d-flex justify-content-center mt-5">
-                         <a
+                         <c:if test="${currentPage > 1}">
+                              <a
                               class="rounded ${currentPage == 1 ? 'disabled' : ''}"
                               href="/product?page=${currentPage - 1}${queryString}"
                               aria-label="Previous"
                          >
                               <span aria-hidden="true">&laquo;</span>
                          </a>
+                         </c:if>
                          <c:forEach begin="1" end="${totalPages}" varStatus="loop">
                               <a
                               class="rounded ${loop.index == currentPage ? 'active' : ''}"
                               href="/product?page=${loop.index}${queryString}"
                               >${loop.index}</a>
                          </c:forEach>
-                         <a
+                         <c:if test="${currentPage < totalPages}">
+                              <a
                               class="rounded ${currentPage == totalPages ? 'disabled' : ''}"
                               href="/product?page=${currentPage + 1}${queryString}"
                               aria-label="Next"
                          >
                               <span aria-hidden="true">&raquo;</span>
                          </a>
+                         </c:if>
                          </div>
                     </div>
                     </c:if>

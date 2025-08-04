@@ -229,7 +229,7 @@
         }
     });
 
-    $('#btnFilter').click(function () {
+    $('#btnFilter').click(function (event) {
 
         event.preventDefault();
         let factoryArr = [];
@@ -281,6 +281,59 @@
 
         window.location.href = currentUrl.toString();
     });
+
+
+    $('.btnAddToCartHomePage').click(function (event) {
+        event.preventDefault();
+        if (!isLogin()) {
+            $.toast({
+                header: "Error!",
+                text: "You need login to continue!",
+                position: "top-right",
+                icon: "error"
+            })
+            return;
+        }
+
+        const productId = $(this).attr('data-product-id');
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        const quantity = $("#carDetails0\\.quantity").val();
+
+        $.ajax({
+            url: `${window.location.origin}/api/add-product-to-cart`,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            type: "POST",
+            data: JSON.stringify({ quantity: quantity, productId: productId }),
+            contentType: "application/json",
+
+            success: function (response) {
+                const sum = +response;
+
+                $('#sumCart').text(sum)
+                $.toast({
+                    heading: "Cart",
+                    text: "Add to cart successfully",
+                    position: "top-right",
+                })
+            },
+            error: function (response) {
+                alert("Error");
+                console.log(response);
+            }
+        })
+    })
+
+    function isLogin() {
+        const navElement = $('#navbarCollapse');
+        const childLogin = navElement.find('a.a-login');
+        if (childLogin.length > 0) {
+            return false;
+        }
+        return true;
+    }
 
 })(jQuery);
 

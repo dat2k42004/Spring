@@ -20,6 +20,7 @@ import com.example.demo.domain.Role;
 import com.example.demo.domain.User;
 import com.example.demo.service.UploadService;
 import com.example.demo.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletContext;
 import jakarta.validation.Valid;
@@ -77,6 +78,14 @@ public class UserController {
           }
           Pageable pageable = PageRequest.of(page - 1, 2);
           Page<User> arrUsers = this.userService.handleGetAllUsers(pageable);
+          ObjectMapper userMapper = new ObjectMapper();
+          String users = "";
+          try {
+               users = userMapper.writeValueAsString(arrUsers.getContent());
+          } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+               e.printStackTrace();
+          }
+          System.out.println(">>>>> ????? >>>>" + users);
           model.addAttribute("arrUsers", arrUsers.getContent());
           model.addAttribute("currentPage", page);
           model.addAttribute("totalPages", arrUsers.getTotalPages());
